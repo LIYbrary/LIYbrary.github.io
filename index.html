@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LIYbrary</title>
+<meta name="description" content="LIYbrary, the Learn It Yourself library: free practice apps for singing, phonics, geography and codebreaking. They work offline and collect nothing.">
+<meta name="author" content="Maitreyee Singh">
+<meta name="theme-color" content="#f6f1e7">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231f3d36'/%3E%3Crect x='14' y='14' width='9' height='36' rx='2' fill='%23f2b544'/%3E%3Crect x='26' y='18' width='9' height='32' rx='2' fill='%23e76f51'/%3E%3Crect x='38' y='12' width='9' height='38' rx='2' transform='rotate(12 42 31)' fill='%238ecae6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#f6f1e7; --paper:#fffdf8; --ink:#1f2a27; --muted:#5c6a65; --line:#e3dacb; --deep:#1f3d36;
+  --c1:#7b4bd6; --c2:#e76f51; --c3:#2a9d8f; --c4:#0f6e64; --gold:#f2b544;
+  --display:"Fraunces",Georgia,serif; --body:"Inter",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141a18; --paper:#1c2421; --ink:#ece6da; --muted:#a3ada8; --line:#2d3834; --deep:#0e1513;
+  --c1:#b39cf0; --c2:#f4a28c; --c3:#6fd1c4; --c4:#5cc7b8; --gold:#f2c46a}}
+:root[data-theme="dark"]{--bg:#141a18; --paper:#1c2421; --ink:#ece6da; --muted:#a3ada8; --line:#2d3834; --deep:#0e1513;
+  --c1:#b39cf0; --c2:#f4a28c; --c3:#6fd1c4; --c4:#5cc7b8; --gold:#f2c46a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--body)}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+
+/* hero */
+header{padding:72px 0 40px;text-align:center}
+.shelf{display:flex;justify-content:center;align-items:flex-end;gap:6px;height:64px;margin-bottom:22px}
+.shelf i{display:block;width:16px;border-radius:3px 3px 1px 1px}
+.shelf i:nth-child(1){height:52px;background:var(--c1)}
+.shelf i:nth-child(2){height:62px;background:var(--gold)}
+.shelf i:nth-child(3){height:44px;background:var(--c2)}
+.shelf i:nth-child(4){height:56px;background:var(--c3)}
+.shelf i:nth-child(5){height:48px;background:var(--c4);transform:rotate(11deg);transform-origin:bottom left;margin-left:2px}
+h1{font:800 clamp(3rem,11vw,6rem)/.95 var(--display);margin:0;letter-spacing:-.02em}
+h1 .iy{color:var(--c2);font-style:italic}
+.tag{font:600 clamp(1.05rem,3vw,1.35rem) var(--display);margin:14px 0 0;color:var(--muted);letter-spacing:.01em}
+.tag b{color:var(--ink)}
+.intro{max-width:560px;margin:18px auto 0;color:var(--muted)}
+
+/* apps */
+main{padding:24px 0 56px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:18px}
+.card{position:relative;display:flex;gap:18px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px 22px 20px 30px;overflow:hidden;transition:transform .15s,box-shadow .15s}
+.card::before{content:"";position:absolute;inset:0 auto 0 0;width:10px;background:var(--accent)}
+.card:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(31,42,39,.10)}
+.card img{width:64px;height:64px;border-radius:14px;flex:none;background:var(--line)}
+.card h2{font:800 1.45rem/1.15 var(--display);margin:0}
+.card h2 a{text-decoration:none}
+.card h2 a::after{content:"";position:absolute;inset:0}
+.kind{font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin:2px 0 6px}
+.card p{margin:0;color:var(--muted);font-size:.97rem}
+.links{display:flex;gap:16px;margin-top:12px;font-size:.9rem;font-weight:600;position:relative;z-index:1}
+.links a{text-decoration:none;color:var(--accent)}
+.links a:hover,.links a:focus-visible{text-decoration:underline}
+.card:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+
+footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--muted);font-size:.9rem;text-align:center}
+footer a{color:var(--ink)}
+@media (max-width:520px){header{padding-top:48px}.card{padding:18px 18px 18px 26px;gap:14px}.card img{width:52px;height:52px}}
+@media (prefers-reduced-motion:reduce){.card{transition:none}.card:hover{transform:none}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div class="shelf" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  <h1>L<span class="iy">IY</span>brary</h1>
+  <p class="tag"><b>L</b>earn <b>I</b>t <b>Y</b>ourself library</p>
+  <p class="intro">Free practice apps that make you the boss of your own learning.</p>
+</header>
+
+<main class="wrap">
+  <div class="grid">
+    <article class="card" style="--accent:var(--c1)">
+      <img src="https://liybrary.github.io/vocalize/icons/icon-192.png" alt="" loading="lazy">
+      <div>
+        <h2><a href="https://liybrary.github.io/vocalize/">Vocalize</a></h2>
+        <p class="kind">Singing</p>
+        <p>Your personal AI vocal coach. Sing, and it measures your pitch, breath, vibrato and tone, then coaches you with exercises and a practice plan.</p>
+        <div class="links"><a href="https://liybrary.github.io/vocalize/">Open app →</a><a href="https://github.com/LIYbrary/vocalize">Code</a></div>
+      </div>
+    </article>
+    <article class="card" style="--accent:var(--c2)">
+      <img src="https://liybrary.github.io/sound_garden/icons/icon-192.png" alt="" loading="lazy">
+      <div>
+        <h2><a href="https://liybrary.github.io/sound_garden/">Sound Garden</a></h2>
+        <p class="kind">Phonics · Early readers</p>
+        <p>Phonics games for young kids: blends, digraphs and vowel teams, with sounds read aloud and a garden that grows as you learn.</p>
+        <div class="links"><a href="https://liybrary.github.io/sound_garden/">Open app →</a><a href="https://github.com/LIYbrary/sound_garden">Code</a></div>
+      </div>
+    </article>
+    <article class="card" style="--accent:var(--c3)">
+      <img src="https://liybrary.github.io/geography_bee/icons/icon-192.png" alt="" loading="lazy">
+      <div>
+        <h2><a href="https://liybrary.github.io/geography_bee/">Geography Bee</a></h2>
+        <p class="kind">Geography</p>
+        <p>Practise for a geography bee: capitals and flags of every country, rivers and oceans, borders, world regions and landmarks, from easy to hard.</p>
+        <div class="links"><a href="https://liybrary.github.io/geography_bee/">Open app →</a><a href="https://github.com/LIYbrary/geography_bee">Code</a></div>
+      </div>
+    </article>
+    <article class="card" style="--accent:var(--c4)">
+      <img src="https://liybrary.github.io/codebusters-speedpractise/icons/icon-192.png" alt="" loading="lazy">
+      <div>
+        <h2><a href="https://liybrary.github.io/codebusters-speedpractise/">Codebusters Speed Guide</a></h2>
+        <p class="kind">Cryptography · Science Olympiad</p>
+        <p>Over 3,000 real tournament ciphers with timers, speed drills and Morse and Baconian flashcards, to get faster at Codebusters.</p>
+        <div class="links"><a href="https://liybrary.github.io/codebusters-speedpractise/">Open app →</a><a href="https://github.com/LIYbrary/codebusters-speedpractise">Code</a></div>
+      </div>
+    </article>
+  </div>
+</main>
+
+<footer class="wrap">
+  Made by Maitreyee Singh · <a href="https://github.com/LIYbrary">LIYbrary on GitHub</a>
+</footer>
+</body>
+</html>
