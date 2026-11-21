@@ -58,6 +58,16 @@ main{padding:24px 0 56px}
 .links a:hover,.links a:focus-visible{text-decoration:underline}
 .card:focus-within{outline:2px solid var(--accent);outline-offset:2px}
 
+/* library checkout card (visitor stats) */
+.checkout{max-width:360px;margin:40px auto 0;background:#fbf3d9;color:#3b3226;border:1px solid #e2d3a8;border-radius:4px;padding:16px 20px 14px;
+  font:15px/1.4 "Courier New",monospace;box-shadow:0 6px 18px rgba(31,42,39,.12);transform:rotate(-1.2deg)}
+.checkout h3{font:700 .8rem var(--body);letter-spacing:.18em;text-transform:uppercase;text-align:center;margin:0 0 10px;color:#7a6a4f;border-bottom:1px solid #d9c793;padding-bottom:8px}
+.checkout .stamp{display:block;width:max-content;margin:6px auto 8px;padding:6px 14px;border:3px solid #c0392b;border-radius:6px;color:#c0392b;
+  font:800 1.5rem/1 var(--display);transform:rotate(-4deg);opacity:.88;letter-spacing:.02em}
+.checkout table{width:100%;border-collapse:collapse}
+.checkout td{border-top:1px dashed #d9c793;padding:5px 0}
+.checkout td:last-child{text-align:right;color:#c0392b;font-weight:700}
+.checkout p{margin:8px 0 0;font-size:.75rem;color:#7a6a4f;text-align:center;font-family:var(--body)}
 footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--muted);font-size:.9rem;text-align:center}
 footer a{color:var(--ink)}
 @media (max-width:520px){header{padding-top:48px}.card{padding:18px 18px 18px 26px;gap:14px}.card img{width:52px;height:52px}}
@@ -111,10 +121,36 @@ footer a{color:var(--ink)}
       </div>
     </article>
   </div>
+
+  <aside class="checkout" id="checkout" hidden aria-label="Visitor stats">
+    <h3>LIYbrary · Checkout card</h3>
+    <span class="stamp" id="visits"></span>
+    <table id="checkouts"></table>
+    <p>Counted anonymously: no cookies, no names.</p>
+  </aside>
 </main>
 
 <footer class="wrap">
   Made by Maitreyee Singh · <a href="https://github.com/LIYbrary">LIYbrary on GitHub</a>
 </footer>
+<!-- Anonymous visit stats from GoatCounter (no cookies, no personal data). -->
+<script data-goatcounter="https://liybrary.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+/* Each "Open app" click is counted as a checkout of that app. */
+const APPS=[["vocalize","Vocalize"],["sound_garden","Sound Garden"],["geography_bee","Geography Bee"],["codebusters-speedpractise","Codebusters"]];
+document.querySelectorAll('.card').forEach((card,i)=>card.querySelectorAll('a[href*="liybrary.github.io"]').forEach(a=>{
+  a.dataset.goatcounterClick="checkout-"+APPS[i][0];a.dataset.goatcounterTitle="Opened "+APPS[i][1]}));
+/* The checkout card stays hidden unless the stats load. */
+const GC="https://liybrary.goatcounter.com/counter/";
+const get=p=>fetch(GC+encodeURIComponent(p)+".json").then(r=>r.ok?r.json():null).then(j=>j&&j.count).catch(()=>null);
+(async()=>{
+  const total=await get("TOTAL");if(!total)return;
+  const $=id=>document.getElementById(id);
+  $("visits").textContent=`${total} visits`;
+  const rows=await Promise.all(APPS.map(async([id,name])=>[name,await get("checkout-"+id)]));
+  $("checkouts").innerHTML=rows.map(([n,c])=>`<tr><td>${n}</td><td>${c||"0"}× checked out</td></tr>`).join("");
+  $("checkout").hidden=false;
+})();
+</script>
 </body>
 </html>
