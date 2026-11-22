@@ -128,10 +128,10 @@ footer{display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;co
 document.querySelectorAll("[data-app]").forEach(a=>{
   a.dataset.goatcounterClick="checkout-"+a.dataset.app;
   a.dataset.goatcounterTitle="Opened "+a.dataset.app});
-/* Count every address of this page (?v=2, /index.html) as "/". Read that path, as TOTAL would include the clicks. */
-window.goatcounter={path:p=>p.startsWith("checkout-")?p:"/"};
+/* Count every address of this page (?v=2, /index.html) as "/liybrary". Read that path, as TOTAL would include the clicks. */
+window.goatcounter={path:p=>p.startsWith("checkout-")?p:"/liybrary"};
 /* The stamp stays hidden until there is a count to show. */
-fetch("https://liybrary.goatcounter.com/counter/%2F.json")
+fetch("https://maitreyeesingh.goatcounter.com/counter/%2Fliybrary.json")
   .then(r=>r.ok?r.json():null)
   .then(j=>{
     const n=j&&String(j.count).replace(/\D/g,"");
@@ -141,6 +141,6 @@ fetch("https://liybrary.goatcounter.com/counter/%2F.json")
     document.getElementById("counter").hidden=false})
   .catch(()=>{});
 </script>
-<script data-goatcounter="https://liybrary.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script data-goatcounter="https://maitreyeesingh.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
