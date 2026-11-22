@@ -61,16 +61,6 @@ section{padding-top:76px}
 .open::after{content:"";position:absolute;inset:0;border-radius:32px}
 @media (hover:hover){.app:hover{transform:translateY(-6px)}}
 
-/* Privacy */
-.privacy{display:grid;grid-template-columns:1fr 1.6fr;gap:28px 56px}
-.privacy>p{margin:0}
-.privacy .sub{color:var(--muted);margin-top:14px}
-.policy{margin:0;background:var(--panel);border-radius:28px;padding:10px 26px}
-.policy div{padding:17px 0}
-.policy div+div{border-top:1px solid #8881a530}
-.policy dt{font:800 1.12rem var(--display);margin-bottom:4px}
-.policy dd{margin:0;color:var(--muted);font-size:.95rem}
-
 /* Checkouts */
 .checkout{margin-top:76px;padding:30px;border-radius:32px;background:var(--night);color:#fff}
 .checkout h2{font-size:1.6rem}
@@ -89,7 +79,7 @@ footer{display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;co
   .shelf{padding-right:34px}
   .book:last-child{transform:rotate(5deg)}
   .book img{width:40px;height:40px;border-radius:10px}
-  .grid,.privacy{grid-template-columns:minmax(0,1fr)}
+  .grid{grid-template-columns:minmax(0,1fr)}
   .numbers{grid-template-columns:repeat(2,minmax(0,1fr))}
   section{padding-top:56px}
 }
@@ -107,7 +97,7 @@ footer{display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;co
 <header class="hero">
   <nav class="wrap" aria-label="Main">
     <a class="brand" href="./">L<span>IY</span>brary</a>
-    <div class="navlinks"><a href="#apps">Apps</a><a href="#privacy">Privacy</a></div>
+    <div class="navlinks"><a href="#apps">Apps</a></div>
   </nav>
   <div class="wrap intro">
     <div class="copy">
@@ -160,20 +150,6 @@ footer{display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;co
     </div>
   </section>
 
-  <section id="privacy" class="privacy">
-    <div>
-      <h2>What happens to your data</h2>
-      <p class="sub">Each app works a little differently, so here's what each one uses.</p>
-    </div>
-    <dl class="policy">
-      <div><dt>This home page</dt><dd>Sends page visits and app-link clicks to GoatCounter, a visit-counting service, without cookies. It receives basic details such as browser type, screen size, referring site and approximate location.</dd></div>
-      <div><dt>Vocalize</dt><dd>Sends your singing to its server and keeps recordings, results and any account details so it can give feedback and track progress. <a href="https://maitreyeesingh2012-arch.github.io/vocalize/privacy.html">Vocalize privacy policy</a></dd></div>
-      <div><dt>Sound Garden</dt><dd>No analytics. Progress stays on your device. The optional support link, behind a grown-up check, opens PayPal. <a href="https://liybrary.github.io/sound_garden/privacy.html">Sound Garden privacy policy</a></dd></div>
-      <div><dt>Geography Bee</dt><dd>No analytics. Progress stays on your device. Flag pictures come from flagcdn.com, and optional voice answers may be processed by your browser's speech service. <a href="https://liybrary.github.io/geography_bee/privacy.html">Geography Bee privacy policy</a></dd></div>
-      <div><dt>Codebusters Speed Guide</dt><dd>No analytics. Progress stays on your device. Fonts load from Google Fonts. <a href="https://liybrary.github.io/codebusters-speedpractise/privacy.html">Codebusters privacy policy</a></dd></div>
-      <div><dt>Hosting</dt><dd>These pages are hosted on GitHub Pages. GitHub, like the other services named here, receives your IP address when your device connects to it.</dd></div>
-    </dl>
-  </section>
 
   <aside class="checkout" id="checkout" hidden aria-label="Visitor stats">
     <h2>Off the shelf</h2>
@@ -204,7 +180,7 @@ const get=p=>fetch(GC+encodeURIComponent(p)+".json").then(r=>r.ok?r.json():null)
   document.getElementById("checkout").hidden=false;
 })();
 </script>
-<!-- Visit stats from GoatCounter (no cookies). Described in the privacy section above. -->
+<!-- Visit stats from GoatCounter (no cookies). -->
 <script data-goatcounter="https://liybrary.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
