@@ -37,43 +37,26 @@ h1 em{font-style:italic;color:var(--coral)}
 .lead{max-width:32ch;color:#cfc7ea;font-size:1.15rem;margin:0 0 28px}
 .cta{display:inline-block;background:var(--sun);color:var(--night);border-radius:99px;padding:14px 26px;font-weight:750;text-decoration:none}
 
-/* The shelf: each book opens an app */
-.shelf{display:flex;padding-right:52px;justify-content:center;align-items:flex-end;gap:7px;height:430px}
-.book{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:space-between;flex:0 1 104px;min-width:0;height:var(--size);padding:24px 0 18px;border-radius:14px 14px 0 0;background:var(--color);color:var(--night);text-decoration:none;transition:transform .25s}
-.book::before{content:"";position:absolute;left:0;right:0;top:12px;height:3px;background:#17112e30}
-.book b{writing-mode:vertical-rl;transform:rotate(180deg);font:800 clamp(1.1rem,2.2vw,1.45rem) var(--display);white-space:nowrap;margin:auto}
-.book img{width:54px;height:54px;max-width:78%;object-fit:contain;border-radius:14px}
+/* The shelf: books never move. A bookmark fades in, in the space kept free above them */
+.shelf{position:relative;display:flex;justify-content:center;align-items:flex-end;gap:7px;height:470px;padding-right:40px}
+.book{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:space-between;flex:0 1 100px;min-width:0;height:calc(var(--size)*.69);
+  padding:22px 0 14px;border-radius:12px 12px 0 0;background:var(--color);color:var(--night);text-decoration:none;transition:filter .35s ease}
+.book::before{content:"";position:absolute;left:0;right:0;top:11px;height:2px;background:#17112e30}
+.book b{writing-mode:vertical-rl;transform:rotate(180deg);font:800 1.15rem var(--display);white-space:nowrap;margin:auto}
+.book img{width:40px;height:40px;max-width:78%;object-fit:contain;border-radius:11px}
 .book:last-child{transform:rotate(7deg);transform-origin:bottom left;margin-left:4px}
-.book{transition:height .4s ease,transform .4s ease}
-/* With a book open, the shelf dips and a bookmark springs up out of that book */
-.shelf{position:relative}
-.shelf:has(.open) .book{height:180px;transform:none;padding-block:20px 10px}
-.shelf:has(.open) .book b{font-size:1rem}
-.shelf:has(.open) .book img{display:none}
-.shelf .book.open b{display:none}
-.shelf .book.open img{display:block;margin:auto}
-.about{position:absolute;z-index:2;bottom:calc(100% - 5px);left:50%;width:250px;height:260px;padding:52px 24px 22px;
-  display:flex;flex-direction:column;align-items:center;text-align:center;font-size:.92rem;line-height:1.4;
-  background:radial-gradient(circle at 50% 27px,transparent 0 7px,var(--color) 8px 11px,#fff8e8 12px);
-  border-radius:24px 24px 0 0;opacity:0;visibility:hidden;pointer-events:none;
-  transform-origin:bottom;transform:translateX(-50%) translateY(55px) scaleY(.25)}
-/* Thin printed frame */
-.about::before{content:"";position:absolute;inset:8px 8px 0;border:2px solid var(--color);border-bottom:0;border-radius:18px 18px 0 0;pointer-events:none}
-/* Tassel threaded through the hole */
-.about .tassel{position:absolute;left:50%;top:25px;width:calc(50% + 6px);height:38px;border:solid var(--color);border-width:3px 3px 0 0;border-radius:0 26px 0 0;transform-origin:top left}
-.tassel::after{content:"";position:absolute;right:-12px;top:100%;width:21px;height:46px;clip-path:polygon(30% 0,70% 0,70% 18%,100% 100%,0 100%,30% 18%);
-  background:linear-gradient(transparent 0 8px,#17112e66 8px 11px,transparent 11px),repeating-linear-gradient(90deg,transparent 0 3px,#17112e40 3px 4px),var(--color)}
-.about strong{font:italic 400 1.75rem/1.1 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
-.about strong::after{content:"";display:block;width:44px;height:3px;margin:10px auto 11px;border-radius:2px;background:var(--color)}
-.about small{margin-top:8px;font-size:.78rem;font-weight:700}
-.about .go{margin-top:auto;background:var(--color);border-radius:99px;padding:6px 16px;font-weight:700}
-.book:first-child .about{left:0;transform:translateY(55px) scaleY(.25)}
-.book:last-child .about{left:auto;right:0;transform:translateY(55px) scaleY(.25)}
-.book.open .about{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%);
-  transition:transform .55s cubic-bezier(.2,1.5,.4,1) .12s,opacity .15s .12s}
-.book.open:first-child .about,.book.open:last-child .about{transform:none}
-.book.open .tassel{animation:swing 1.5s ease-out .2s}
-@keyframes swing{0%{transform:rotate(-16deg)}35%{transform:rotate(6deg)}65%{transform:rotate(-3deg)}100%{transform:none}}
+.shelf:has(.book.open) .book:not(.open){filter:brightness(.62) saturate(.8)}
+.prompt,.note{position:absolute;top:0;left:50%;translate:-50% 0;width:min(100%,460px);height:168px;transition:opacity .35s ease,visibility .35s}
+.prompt{display:grid;place-items:center;margin:0;color:#cfc7ea;opacity:.75;font:italic 1.15rem "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;pointer-events:none}
+.shelf:has(.book.open) .prompt{opacity:0}
+.note{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:16px 58px 16px 32px;
+  background:linear-gradient(var(--color),var(--color)) left/7px 100% no-repeat,#fff8e8;color:var(--night);text-decoration:none;
+  clip-path:polygon(0 0,100% 0,calc(100% - 26px) 50%,100% 100%,0 100%);font-size:.93rem;line-height:1.42;opacity:0;visibility:hidden}
+.note{transition:opacity .12s ease,visibility .12s}
+.note.open{opacity:1;visibility:visible;transition:opacity .4s ease .1s,visibility 0s}
+.note strong{font:italic 400 1.65rem/1.15 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;margin-bottom:6px}
+.note small{margin-top:9px;color:#5d5773;font-size:.8rem}
+.note small span{color:var(--night);font-weight:700;margin-left:12px}
 
 /* Visit counter, drawn as a library stamp */
 .stamp{width:max-content;max-width:100%;margin:44px auto 0;padding:9px 22px;border:3px solid currentColor;outline:1px solid currentColor;outline-offset:4px;border-radius:12px;color:#b8432a;text-align:center;transform:rotate(-3deg)}
@@ -86,24 +69,21 @@ footer{display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;co
 @media (max-width:800px){
   .intro{grid-template-columns:minmax(0,1fr);padding-top:20px;gap:28px}
   .copy{padding-bottom:0}
-  .shelf{height:300px;gap:5px}
-  .book{height:calc(var(--size)*.72);padding:20px 0 12px}
-  .shelf{padding-right:34px}
+  .shelf{height:392px;gap:5px;padding-right:30px}
+  .book{height:calc(var(--size)*.58);padding:18px 0 10px}
+  .book b{font-size:.94rem}
   .book:last-child{transform:rotate(5deg)}
-  .book img{width:40px;height:40px;border-radius:10px}
-  .shelf{height:390px}
-  .shelf:has(.open) .book{height:152px;transform:none;padding-block:16px 8px}
-  .shelf:has(.open) .book b{font-size:.88rem}
-  .about{width:212px;height:236px;padding:48px 18px 18px;font-size:.82rem;line-height:1.35}
-  .about strong{font-size:1.45rem}
-  .book:nth-child(2) .about{left:100%}
-  .book:nth-child(3) .about{left:0}
+  .book img{width:32px;height:32px;border-radius:9px}
+  .prompt,.note{height:146px}
+  .note{padding:10px 40px 10px 22px;font-size:.82rem;line-height:1.36}
+  .note strong{font-size:1.35rem;margin-bottom:4px}
+  .note small{margin-top:6px;font-size:.74rem}
 }
 @media (max-width:480px){
   .wrap{padding-inline:16px}
   .navlinks{gap:14px}
 }
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.book,.book.open .about{transition:none}.book.open .tassel{animation:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.book,.prompt,.note,.note.open{transition:none}}
 </style>
 </head>
 <body>
@@ -120,10 +100,15 @@ footer{display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;co
       <a class="cta" href="#apps">Browse the apps</a>
     </div>
     <div class="shelf" id="apps">
-      <a class="book" data-app="vocalize" style="--color:var(--violet);--size:375px" href="https://maitreyeesingh2012-arch.github.io/vocalize/"><span class="about"><i class="tassel" aria-hidden="true"></i><strong>Vocalize</strong>Your vocal coach. Sing, and get feedback on pitch, breath, vibrato and tone.<small>Ages 13+</small><span class="go">Open app →</span></span><b aria-hidden="true">Vocalize</b><img src="https://maitreyeesingh2012-arch.github.io/vocalize/icons/icon-192.png" alt=""></a>
-      <a class="book" data-app="sound_garden" style="--color:var(--coral);--size:335px" href="https://liybrary.github.io/sound_garden/"><span class="about"><i class="tassel" aria-hidden="true"></i><strong>Sound Garden</strong>Phonics games with blends, digraphs and vowel teams, in a garden that grows as you learn.<small>Early readers</small><span class="go">Open app →</span></span><b aria-hidden="true">Sound Garden</b><img src="https://liybrary.github.io/sound_garden/icons/icon-192.png" alt=""></a>
-      <a class="book" data-app="geography_bee" style="--color:var(--sky);--size:400px" href="https://liybrary.github.io/geography_bee/"><span class="about"><i class="tassel" aria-hidden="true"></i><strong>Geography Bee</strong>Train for the bee with capitals, flags, rivers, borders and landmarks.<small>Easy to hard</small><span class="go">Open app →</span></span><b aria-hidden="true">Geography Bee</b><img src="https://liybrary.github.io/geography_bee/icons/icon-192.png" alt=""></a>
-      <a class="book" data-app="codebusters-speedpractise" style="--color:var(--lime);--size:350px" href="https://liybrary.github.io/codebusters-speedpractise/"><span class="about"><i class="tassel" aria-hidden="true"></i><strong>Codebusters</strong>Get faster with over 3,000 tournament ciphers, timed drills and flashcards.<small>Science Olympiad</small><span class="go">Open app →</span></span><b aria-hidden="true">Codebusters</b><img src="https://liybrary.github.io/codebusters-speedpractise/icons/icon-192.png" alt=""></a>
+      <p class="prompt" aria-hidden="true">Every book opens a new skill</p>
+      <a class="note" id="note-vocalize" data-app="vocalize" tabindex="-1" style="--color:var(--violet)" href="https://maitreyeesingh2012-arch.github.io/vocalize/"><strong>Vocalize</strong>Your vocal coach. Sing, and get feedback on pitch, breath, vibrato and tone.<small>Ages 13+ <span>Open app →</span></small></a>
+      <a class="note" id="note-sound_garden" data-app="sound_garden" tabindex="-1" style="--color:var(--coral)" href="https://liybrary.github.io/sound_garden/"><strong>Sound Garden</strong>Phonics games with blends, digraphs and vowel teams, in a garden that grows as you learn.<small>Early readers <span>Open app →</span></small></a>
+      <a class="note" id="note-geography_bee" data-app="geography_bee" tabindex="-1" style="--color:var(--sky)" href="https://liybrary.github.io/geography_bee/"><strong>Geography Bee</strong>Train for the bee with capitals, flags, rivers, borders and landmarks.<small>Easy to hard <span>Open app →</span></small></a>
+      <a class="note" id="note-codebusters-speedpractise" data-app="codebusters-speedpractise" tabindex="-1" style="--color:var(--lime)" href="https://liybrary.github.io/codebusters-speedpractise/"><strong>Codebusters</strong>Get faster with over 3,000 tournament ciphers, timed drills and flashcards.<small>Science Olympiad <span>Open app →</span></small></a>
+      <a class="book" data-app="vocalize" style="--color:var(--violet);--size:375px" href="https://maitreyeesingh2012-arch.github.io/vocalize/" aria-label="Vocalize" aria-describedby="note-vocalize"><b aria-hidden="true">Vocalize</b><img src="https://maitreyeesingh2012-arch.github.io/vocalize/icons/icon-192.png" alt=""></a>
+      <a class="book" data-app="sound_garden" style="--color:var(--coral);--size:335px" href="https://liybrary.github.io/sound_garden/" aria-label="Sound Garden" aria-describedby="note-sound_garden"><b aria-hidden="true">Sound Garden</b><img src="https://liybrary.github.io/sound_garden/icons/icon-192.png" alt=""></a>
+      <a class="book" data-app="geography_bee" style="--color:var(--sky);--size:400px" href="https://liybrary.github.io/geography_bee/" aria-label="Geography Bee" aria-describedby="note-geography_bee"><b aria-hidden="true">Geography Bee</b><img src="https://liybrary.github.io/geography_bee/icons/icon-192.png" alt=""></a>
+      <a class="book" data-app="codebusters-speedpractise" style="--color:var(--lime);--size:350px" href="https://liybrary.github.io/codebusters-speedpractise/" aria-label="Codebusters" aria-describedby="note-codebusters-speedpractise"><b aria-hidden="true">Codebusters</b><img src="https://liybrary.github.io/codebusters-speedpractise/icons/icon-192.png" alt=""></a>
     </div>
   </div>
 </header>
@@ -145,8 +130,8 @@ document.querySelectorAll("[data-app]").forEach(a=>{
 window.goatcounter={path:p=>p.startsWith("checkout-")?p:"/liybrary"};
 /* Books open on mouse-over, keyboard focus or first tap. A tap on an open book follows its link. */
 (()=>{
-  const shelf=document.getElementById("apps"),books=[...shelf.children];
-  const show=book=>books.forEach(b=>b.classList.toggle("open",b===book));
+  const shelf=document.getElementById("apps"),books=[...shelf.querySelectorAll(".book")],notes=[...shelf.querySelectorAll(".note")];
+  const show=book=>[...books,...notes].forEach(el=>el.classList.toggle("open",!!book&&el.dataset.app===book.dataset.app));
   let opened=false;
   for(const book of books){
     book.addEventListener("pointerenter",e=>{if(e.pointerType==="mouse")show(book)});
@@ -160,7 +145,7 @@ window.goatcounter={path:p=>p.startsWith("checkout-")?p:"/liybrary"};
     const book=e.target.closest(".book");
     if(book){
       if(e.detail&&e.pointerType!=="mouse"&&!opened){e.preventDefault();e.stopPropagation();show(book)}
-    }else show(e.target.closest('a[href="#apps"]')?books[0]:undefined);
+    }else if(!e.target.closest(".note"))show(e.target.closest('a[href="#apps"]')?books[0]:undefined);
   },true);
   addEventListener("pageshow",()=>show());
 })();
