@@ -44,17 +44,15 @@ h1 em{font-style:italic;color:var(--coral)}
 .book b{writing-mode:vertical-rl;transform:rotate(180deg);font:800 clamp(1.1rem,2.2vw,1.45rem) var(--display);white-space:nowrap;margin:auto}
 .book img{width:54px;height:54px;max-width:78%;object-fit:contain;border-radius:14px}
 .book:last-child{transform:rotate(7deg);transform-origin:bottom left;margin-left:4px}
-@media (hover:hover){.book:hover{transform:translateY(-16px)}}
-
-/* Apps */
-#apps{padding-block:56px 12px}
-.apps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px 16px}
-.app{display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;border-radius:24px}
-.app i{display:grid;place-items:center;width:100px;height:100px;margin-bottom:14px;border-radius:50%;background:var(--color);transition:transform .25s}
-.app img{width:58px;height:58px;border-radius:16px}
-.app b{font:800 1.12rem/1.2 var(--display)}
-.app span{color:var(--muted);font-size:.88rem;margin-top:4px}
-@media (hover:hover){.app:hover i{transform:translateY(-6px)}}
+.book{overflow:hidden;transition:flex-basis .3s,height .3s,transform .3s}
+.book .about{position:absolute;left:50%;top:30px;width:250px;padding:0 20px;transform:translateX(-50%);opacity:0;pointer-events:none;text-align:left;font-size:.93rem;line-height:1.42}
+.about strong{display:block;font:850 1.45rem/1.1 var(--display);margin-bottom:10px}
+.about small{display:block;margin-top:8px;font-weight:700}
+.about .go{display:inline-block;margin-top:14px;background:var(--night);color:#fff;border-radius:99px;padding:6px 14px;font-weight:700}
+.book.open{flex:0 0 250px;height:100%;transform:none;margin-left:0}
+.book.open b{visibility:hidden}
+.book.open .about{opacity:1;transition:opacity .15s .18s}
+.book.open img{align-self:flex-end;margin-right:20px}
 
 /* Visit counter, drawn as a library stamp */
 .stamp{width:max-content;max-width:100%;margin:44px auto 0;padding:9px 22px;border:3px solid currentColor;outline:1px solid currentColor;outline-offset:4px;border-radius:12px;color:#b8432a;text-align:center;transform:rotate(-3deg)}
@@ -72,16 +70,17 @@ footer{display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;co
   .shelf{padding-right:34px}
   .book:last-child{transform:rotate(5deg)}
   .book img{width:40px;height:40px;border-radius:10px}
-  .apps{grid-template-columns:repeat(2,minmax(0,1fr))}
-  #apps{padding-top:40px}
+  .book .about{width:200px;top:24px;padding:0 14px;font-size:.82rem;line-height:1.35}
+  .about strong{font-size:1.15rem;margin-bottom:7px}
+  .about .go{margin-top:9px}
+  .book.open{flex-basis:200px;height:100%;transform:none}
+  .shelf:has(.open){padding-right:0}
 }
 @media (max-width:480px){
   .wrap{padding-inline:16px}
   .navlinks{gap:14px}
-  .app i{width:88px;height:88px}
-  .app img{width:52px;height:52px}
 }
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.book,.app i{transition:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.book,.book.open .about{transition:none}}
 </style>
 </head>
 <body>
@@ -97,25 +96,16 @@ footer{display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;co
       <p class="lead">Free practice apps to level up your skills, on your own terms.</p>
       <a class="cta" href="#apps">Browse the apps</a>
     </div>
-    <div class="shelf">
-      <a class="book" data-app="vocalize" style="--color:var(--violet);--size:375px" href="https://maitreyeesingh2012-arch.github.io/vocalize/"><b>Vocalize</b><img src="https://maitreyeesingh2012-arch.github.io/vocalize/icons/icon-192.png" alt=""></a>
-      <a class="book" data-app="sound_garden" style="--color:var(--coral);--size:335px" href="https://liybrary.github.io/sound_garden/"><b>Sound Garden</b><img src="https://liybrary.github.io/sound_garden/icons/icon-192.png" alt=""></a>
-      <a class="book" data-app="geography_bee" style="--color:var(--sky);--size:400px" href="https://liybrary.github.io/geography_bee/"><b>Geography Bee</b><img src="https://liybrary.github.io/geography_bee/icons/icon-192.png" alt=""></a>
-      <a class="book" data-app="codebusters-speedpractise" style="--color:var(--lime);--size:350px" href="https://liybrary.github.io/codebusters-speedpractise/"><b>Codebusters</b><img src="https://liybrary.github.io/codebusters-speedpractise/icons/icon-192.png" alt=""></a>
+    <div class="shelf" id="apps">
+      <a class="book" data-app="vocalize" style="--color:var(--violet);--size:375px" href="https://maitreyeesingh2012-arch.github.io/vocalize/"><span class="about"><strong>Vocalize</strong>An AI vocal coach. Sing, and get feedback on pitch, breath, vibrato and tone.<small>Ages 13+</small><span class="go">Open app →</span></span><b aria-hidden="true">Vocalize</b><img src="https://maitreyeesingh2012-arch.github.io/vocalize/icons/icon-192.png" alt=""></a>
+      <a class="book" data-app="sound_garden" style="--color:var(--coral);--size:335px" href="https://liybrary.github.io/sound_garden/"><span class="about"><strong>Sound Garden</strong>Phonics games with blends, digraphs and vowel teams, in a garden that grows as you learn.<small>Early readers</small><span class="go">Open app →</span></span><b aria-hidden="true">Sound Garden</b><img src="https://liybrary.github.io/sound_garden/icons/icon-192.png" alt=""></a>
+      <a class="book" data-app="geography_bee" style="--color:var(--sky);--size:400px" href="https://liybrary.github.io/geography_bee/"><span class="about"><strong>Geography Bee</strong>Train for the bee with capitals, flags, rivers, borders and landmarks.<small>Easy to hard</small><span class="go">Open app →</span></span><b aria-hidden="true">Geography Bee</b><img src="https://liybrary.github.io/geography_bee/icons/icon-192.png" alt=""></a>
+      <a class="book" data-app="codebusters-speedpractise" style="--color:var(--lime);--size:350px" href="https://liybrary.github.io/codebusters-speedpractise/"><span class="about"><strong>Codebusters</strong>Get faster with over 3,000 tournament ciphers, timed drills and flashcards.<small>Science Olympiad</small><span class="go">Open app →</span></span><b aria-hidden="true">Codebusters</b><img src="https://liybrary.github.io/codebusters-speedpractise/icons/icon-192.png" alt=""></a>
     </div>
   </div>
 </header>
 
 <main class="wrap">
-  <section id="apps" aria-label="Apps">
-    <div class="apps">
-      <a class="app" data-app="vocalize" style="--color:var(--violet)" href="https://maitreyeesingh2012-arch.github.io/vocalize/"><i><img src="https://maitreyeesingh2012-arch.github.io/vocalize/icons/icon-192.png" alt=""></i><b>Vocalize</b><span>Singing, ages 13+</span></a>
-      <a class="app" data-app="sound_garden" style="--color:var(--coral)" href="https://liybrary.github.io/sound_garden/"><i><img src="https://liybrary.github.io/sound_garden/icons/icon-192.png" alt=""></i><b>Sound Garden</b><span>Phonics for early readers</span></a>
-      <a class="app" data-app="geography_bee" style="--color:var(--sky)" href="https://liybrary.github.io/geography_bee/"><i><img src="https://liybrary.github.io/geography_bee/icons/icon-192.png" alt=""></i><b>Geography Bee</b><span>Capitals, flags and rivers</span></a>
-      <a class="app" data-app="codebusters-speedpractise" style="--color:var(--lime)" href="https://liybrary.github.io/codebusters-speedpractise/"><i><img src="https://liybrary.github.io/codebusters-speedpractise/icons/icon-192.png" alt=""></i><b>Codebusters</b><span>Science Olympiad ciphers</span></a>
-    </div>
-  </section>
-
   <div class="stamp" id="counter" hidden><b id="visits"></b><span id="visitsLabel"></span></div>
 </main>
 
@@ -130,6 +120,27 @@ document.querySelectorAll("[data-app]").forEach(a=>{
   a.dataset.goatcounterTitle="Opened "+a.dataset.app});
 /* Count every address of this page (?v=2, /index.html) as "/liybrary". Read that path, as TOTAL would include the clicks. */
 window.goatcounter={path:p=>p.startsWith("checkout-")?p:"/liybrary"};
+/* Books open on mouse-over, keyboard focus or first tap. A tap on an open book follows its link. */
+(()=>{
+  const shelf=document.getElementById("apps"),books=[...shelf.children];
+  const show=book=>books.forEach(b=>b.classList.toggle("open",b===book));
+  let opened=false;
+  for(const book of books){
+    book.addEventListener("pointerenter",e=>{if(e.pointerType==="mouse")show(book)});
+    book.addEventListener("focus",()=>{if(book.matches(":focus-visible"))show(book)});
+    book.addEventListener("pointerdown",()=>{opened=book.classList.contains("open")});
+  }
+  shelf.addEventListener("pointerleave",e=>{if(e.pointerType==="mouse")show()});
+  shelf.addEventListener("focusout",e=>{if(e.relatedTarget&&!shelf.contains(e.relatedTarget))show()});
+  /* Capture, so a tap that only opens a book is not counted as an app visit. */
+  document.addEventListener("click",e=>{
+    const book=e.target.closest(".book");
+    if(book){
+      if(e.detail&&e.pointerType!=="mouse"&&!opened){e.preventDefault();e.stopPropagation();show(book)}
+    }else show(e.target.closest('a[href="#apps"]')?books[0]:undefined);
+  },true);
+  addEventListener("pageshow",()=>show());
+})();
 /* The stamp stays hidden until there is a count to show. */
 fetch("https://maitreyeesingh.goatcounter.com/counter/%2Fliybrary.json?start=2026-11-01")
   .then(r=>r.ok?r.json():null)
