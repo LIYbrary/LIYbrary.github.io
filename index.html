@@ -44,15 +44,36 @@ h1 em{font-style:italic;color:var(--coral)}
 .book b{writing-mode:vertical-rl;transform:rotate(180deg);font:800 clamp(1.1rem,2.2vw,1.45rem) var(--display);white-space:nowrap;margin:auto}
 .book img{width:54px;height:54px;max-width:78%;object-fit:contain;border-radius:14px}
 .book:last-child{transform:rotate(7deg);transform-origin:bottom left;margin-left:4px}
-.book{overflow:hidden;transition:flex-basis .3s,height .3s,transform .3s}
-.book .about{position:absolute;left:50%;top:30px;width:250px;padding:0 20px;transform:translateX(-50%);opacity:0;pointer-events:none;text-align:left;font-size:.93rem;line-height:1.42}
-.about strong{display:block;font:850 1.45rem/1.1 var(--display);margin-bottom:10px}
-.about small{display:block;margin-top:8px;font-weight:700}
-.about .go{display:inline-block;margin-top:14px;background:var(--night);color:#fff;border-radius:99px;padding:6px 14px;font-weight:700}
-.book.open{flex:0 0 250px;height:100%;transform:none;margin-left:0}
-.book.open b{visibility:hidden}
-.book.open .about{opacity:1;transition:opacity .15s .18s}
-.book.open img{align-self:flex-end;margin-right:20px}
+.book{transition:height .4s ease,transform .4s ease}
+/* With a book open, the shelf dips and a bookmark springs up out of that book */
+.shelf{position:relative}
+.shelf:has(.open) .book{height:180px;transform:none;padding-block:20px 10px}
+.shelf:has(.open) .book b{font-size:1rem}
+.shelf:has(.open) .book img{display:none}
+.shelf .book.open b{display:none}
+.shelf .book.open img{display:block;margin:auto}
+.about{position:absolute;z-index:2;bottom:calc(100% - 5px);left:50%;width:250px;height:260px;padding:52px 24px 22px;
+  display:flex;flex-direction:column;align-items:center;text-align:center;font-size:.92rem;line-height:1.4;
+  background:radial-gradient(circle at 50% 27px,transparent 0 7px,var(--color) 8px 11px,#fff8e8 12px);
+  border-radius:24px 24px 0 0;opacity:0;visibility:hidden;pointer-events:none;
+  transform-origin:bottom;transform:translateX(-50%) translateY(55px) scaleY(.25)}
+/* Thin printed frame */
+.about::before{content:"";position:absolute;inset:8px 8px 0;border:2px solid var(--color);border-bottom:0;border-radius:18px 18px 0 0;pointer-events:none}
+/* Tassel threaded through the hole */
+.about .tassel{position:absolute;left:50%;top:25px;width:calc(50% + 6px);height:38px;border:solid var(--color);border-width:3px 3px 0 0;border-radius:0 26px 0 0;transform-origin:top left}
+.tassel::after{content:"";position:absolute;right:-12px;top:100%;width:21px;height:46px;clip-path:polygon(30% 0,70% 0,70% 18%,100% 100%,0 100%,30% 18%);
+  background:linear-gradient(transparent 0 8px,#17112e66 8px 11px,transparent 11px),repeating-linear-gradient(90deg,transparent 0 3px,#17112e40 3px 4px),var(--color)}
+.about strong{font:italic 400 1.75rem/1.1 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+.about strong::after{content:"";display:block;width:44px;height:3px;margin:10px auto 11px;border-radius:2px;background:var(--color)}
+.about small{margin-top:8px;font-size:.78rem;font-weight:700}
+.about .go{margin-top:auto;background:var(--color);border-radius:99px;padding:6px 16px;font-weight:700}
+.book:first-child .about{left:0;transform:translateY(55px) scaleY(.25)}
+.book:last-child .about{left:auto;right:0;transform:translateY(55px) scaleY(.25)}
+.book.open .about{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%);
+  transition:transform .55s cubic-bezier(.2,1.5,.4,1) .12s,opacity .15s .12s}
+.book.open:first-child .about,.book.open:last-child .about{transform:none}
+.book.open .tassel{animation:swing 1.5s ease-out .2s}
+@keyframes swing{0%{transform:rotate(-16deg)}35%{transform:rotate(6deg)}65%{transform:rotate(-3deg)}100%{transform:none}}
 
 /* Visit counter, drawn as a library stamp */
 .stamp{width:max-content;max-width:100%;margin:44px auto 0;padding:9px 22px;border:3px solid currentColor;outline:1px solid currentColor;outline-offset:4px;border-radius:12px;color:#b8432a;text-align:center;transform:rotate(-3deg)}
@@ -70,17 +91,19 @@ footer{display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;co
   .shelf{padding-right:34px}
   .book:last-child{transform:rotate(5deg)}
   .book img{width:40px;height:40px;border-radius:10px}
-  .book .about{width:200px;top:24px;padding:0 14px;font-size:.82rem;line-height:1.35}
-  .about strong{font-size:1.15rem;margin-bottom:7px}
-  .about .go{margin-top:9px}
-  .book.open{flex-basis:200px;height:100%;transform:none}
-  .shelf:has(.open){padding-right:0}
+  .shelf{height:390px}
+  .shelf:has(.open) .book{height:152px;transform:none;padding-block:16px 8px}
+  .shelf:has(.open) .book b{font-size:.88rem}
+  .about{width:212px;height:236px;padding:48px 18px 18px;font-size:.82rem;line-height:1.35}
+  .about strong{font-size:1.45rem}
+  .book:nth-child(2) .about{left:100%}
+  .book:nth-child(3) .about{left:0}
 }
 @media (max-width:480px){
   .wrap{padding-inline:16px}
   .navlinks{gap:14px}
 }
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.book,.book.open .about{transition:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.book,.book.open .about{transition:none}.book.open .tassel{animation:none}}
 </style>
 </head>
 <body>
@@ -97,10 +120,10 @@ footer{display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;co
       <a class="cta" href="#apps">Browse the apps</a>
     </div>
     <div class="shelf" id="apps">
-      <a class="book" data-app="vocalize" style="--color:var(--violet);--size:375px" href="https://maitreyeesingh2012-arch.github.io/vocalize/"><span class="about"><strong>Vocalize</strong>An AI vocal coach. Sing, and get feedback on pitch, breath, vibrato and tone.<small>Ages 13+</small><span class="go">Open app →</span></span><b aria-hidden="true">Vocalize</b><img src="https://maitreyeesingh2012-arch.github.io/vocalize/icons/icon-192.png" alt=""></a>
-      <a class="book" data-app="sound_garden" style="--color:var(--coral);--size:335px" href="https://liybrary.github.io/sound_garden/"><span class="about"><strong>Sound Garden</strong>Phonics games with blends, digraphs and vowel teams, in a garden that grows as you learn.<small>Early readers</small><span class="go">Open app →</span></span><b aria-hidden="true">Sound Garden</b><img src="https://liybrary.github.io/sound_garden/icons/icon-192.png" alt=""></a>
-      <a class="book" data-app="geography_bee" style="--color:var(--sky);--size:400px" href="https://liybrary.github.io/geography_bee/"><span class="about"><strong>Geography Bee</strong>Train for the bee with capitals, flags, rivers, borders and landmarks.<small>Easy to hard</small><span class="go">Open app →</span></span><b aria-hidden="true">Geography Bee</b><img src="https://liybrary.github.io/geography_bee/icons/icon-192.png" alt=""></a>
-      <a class="book" data-app="codebusters-speedpractise" style="--color:var(--lime);--size:350px" href="https://liybrary.github.io/codebusters-speedpractise/"><span class="about"><strong>Codebusters</strong>Get faster with over 3,000 tournament ciphers, timed drills and flashcards.<small>Science Olympiad</small><span class="go">Open app →</span></span><b aria-hidden="true">Codebusters</b><img src="https://liybrary.github.io/codebusters-speedpractise/icons/icon-192.png" alt=""></a>
+      <a class="book" data-app="vocalize" style="--color:var(--violet);--size:375px" href="https://maitreyeesingh2012-arch.github.io/vocalize/"><span class="about"><i class="tassel" aria-hidden="true"></i><strong>Vocalize</strong>Your vocal coach. Sing, and get feedback on pitch, breath, vibrato and tone.<small>Ages 13+</small><span class="go">Open app →</span></span><b aria-hidden="true">Vocalize</b><img src="https://maitreyeesingh2012-arch.github.io/vocalize/icons/icon-192.png" alt=""></a>
+      <a class="book" data-app="sound_garden" style="--color:var(--coral);--size:335px" href="https://liybrary.github.io/sound_garden/"><span class="about"><i class="tassel" aria-hidden="true"></i><strong>Sound Garden</strong>Phonics games with blends, digraphs and vowel teams, in a garden that grows as you learn.<small>Early readers</small><span class="go">Open app →</span></span><b aria-hidden="true">Sound Garden</b><img src="https://liybrary.github.io/sound_garden/icons/icon-192.png" alt=""></a>
+      <a class="book" data-app="geography_bee" style="--color:var(--sky);--size:400px" href="https://liybrary.github.io/geography_bee/"><span class="about"><i class="tassel" aria-hidden="true"></i><strong>Geography Bee</strong>Train for the bee with capitals, flags, rivers, borders and landmarks.<small>Easy to hard</small><span class="go">Open app →</span></span><b aria-hidden="true">Geography Bee</b><img src="https://liybrary.github.io/geography_bee/icons/icon-192.png" alt=""></a>
+      <a class="book" data-app="codebusters-speedpractise" style="--color:var(--lime);--size:350px" href="https://liybrary.github.io/codebusters-speedpractise/"><span class="about"><i class="tassel" aria-hidden="true"></i><strong>Codebusters</strong>Get faster with over 3,000 tournament ciphers, timed drills and flashcards.<small>Science Olympiad</small><span class="go">Open app →</span></span><b aria-hidden="true">Codebusters</b><img src="https://liybrary.github.io/codebusters-speedpractise/icons/icon-192.png" alt=""></a>
     </div>
   </div>
 </header>
