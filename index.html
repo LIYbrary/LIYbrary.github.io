@@ -131,7 +131,7 @@ document.querySelectorAll("[data-app]").forEach(a=>{
 /* Count every address of this page (?v=2, /index.html) as "/liybrary". Read that path, as TOTAL would include the clicks. */
 window.goatcounter={path:p=>p.startsWith("checkout-")?p:"/liybrary"};
 /* The stamp stays hidden until there is a count to show. */
-fetch("https://maitreyeesingh.goatcounter.com/counter/%2Fliybrary.json")
+fetch("https://maitreyeesingh.goatcounter.com/counter/%2Fliybrary.json?start=2026-11-01")
   .then(r=>r.ok?r.json():null)
   .then(j=>{
     const n=j&&String(j.count).replace(/\D/g,"");
