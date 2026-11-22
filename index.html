@@ -58,6 +58,21 @@ h1 em{font-style:italic;color:var(--coral)}
 .note small{margin-top:9px;color:#5d5773;font-size:.8rem}
 .note small span{color:var(--night);font-weight:700;margin-left:12px}
 
+/* Gold cord from the bookmark down to its book: eyelet, twisted silk, knot, tassel.
+   Its length is the empty space between that bookmark and that book, plus a little tuck at each end. */
+.book{--gap:calc(302px - var(--size)*.69);--lift:0px}
+.cord{position:absolute;z-index:2;left:85%;bottom:calc(100% - 9px);width:3px;margin-left:-1.5px;height:calc(var(--gap) - var(--lift) + 22px);
+  transform-origin:50% 100%;background:repeating-linear-gradient(155deg,#f3d58c 0 2px,#b88a35 2px 4px);
+  opacity:0;pointer-events:none;transition:opacity .12s ease}
+.cord::before{content:"";position:absolute;left:50%;top:-5px;width:12px;height:12px;translate:-50% 0;border:3px solid #cfa24b;border-radius:50%;background:var(--night)}
+.cord::after{content:"";position:absolute;left:50%;top:calc(100% - 4px);width:17px;height:56px;translate:-50% 0;
+  clip-path:polygon(50% 0,78% 4%,85% 12%,64% 20%,72% 28%,100% 100%,0 100%,28% 28%,36% 20%,15% 12%,22% 4%);
+  background:linear-gradient(transparent 0 11px,#8a6221 11px 15px,transparent 15px),repeating-linear-gradient(90deg,#f3d58c 0 2px,#c99a42 2px 3px,#a87b2c 3px 4px)}
+.book.open .cord{opacity:1;transition:opacity .4s ease .1s}
+/* The leaning book: its top corner rides higher or lower, and the cord still hangs straight */
+.book:last-child{--lift:-11px}
+.book:last-child .cord{transform:rotate(-7deg)}
+
 /* Visit counter, drawn as a library stamp */
 .stamp{width:max-content;max-width:100%;margin:44px auto 0;padding:9px 22px;border:3px solid currentColor;outline:1px solid currentColor;outline-offset:4px;border-radius:12px;color:#b8432a;text-align:center;transform:rotate(-3deg)}
 .stamp b{display:block;font:850 1.8rem/1.15 var(--display);font-variant-numeric:tabular-nums}
@@ -75,6 +90,10 @@ footer{display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;co
   .book:last-child{transform:rotate(5deg)}
   .book img{width:32px;height:32px;border-radius:9px}
   .prompt,.note{height:146px}
+  .book{--gap:calc(246px - var(--size)*.58)}
+  .book:last-child{--lift:-5px}
+  .book:last-child .cord{transform:rotate(-5deg)}
+  .cord::after{width:14px;height:44px}
   .note{padding:10px 40px 10px 22px;font-size:.82rem;line-height:1.36}
   .note strong{font-size:1.35rem;margin-bottom:4px}
   .note small{margin-top:6px;font-size:.74rem}
@@ -83,7 +102,7 @@ footer{display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;co
   .wrap{padding-inline:16px}
   .navlinks{gap:14px}
 }
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.book,.prompt,.note,.note.open{transition:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.book,.prompt,.note,.note.open,.cord,.book.open .cord{transition:none}}
 </style>
 </head>
 <body>
@@ -105,10 +124,10 @@ footer{display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;co
       <a class="note" id="note-sound_garden" data-app="sound_garden" tabindex="-1" style="--color:var(--coral)" href="https://liybrary.github.io/sound_garden/"><strong>Sound Garden</strong>Phonics games with blends, digraphs and vowel teams, in a garden that grows as you learn.<small>Early readers <span>Open app →</span></small></a>
       <a class="note" id="note-geography_bee" data-app="geography_bee" tabindex="-1" style="--color:var(--sky)" href="https://liybrary.github.io/geography_bee/"><strong>Geography Bee</strong>Train for the bee with capitals, flags, rivers, borders and landmarks.<small>Easy to hard <span>Open app →</span></small></a>
       <a class="note" id="note-codebusters-speedpractise" data-app="codebusters-speedpractise" tabindex="-1" style="--color:var(--lime)" href="https://liybrary.github.io/codebusters-speedpractise/"><strong>Codebusters</strong>Get faster with over 3,000 tournament ciphers, timed drills and flashcards.<small>Science Olympiad <span>Open app →</span></small></a>
-      <a class="book" data-app="vocalize" style="--color:var(--violet);--size:375px" href="https://maitreyeesingh2012-arch.github.io/vocalize/" aria-label="Vocalize" aria-describedby="note-vocalize"><b aria-hidden="true">Vocalize</b><img src="https://maitreyeesingh2012-arch.github.io/vocalize/icons/icon-192.png" alt=""></a>
-      <a class="book" data-app="sound_garden" style="--color:var(--coral);--size:335px" href="https://liybrary.github.io/sound_garden/" aria-label="Sound Garden" aria-describedby="note-sound_garden"><b aria-hidden="true">Sound Garden</b><img src="https://liybrary.github.io/sound_garden/icons/icon-192.png" alt=""></a>
-      <a class="book" data-app="geography_bee" style="--color:var(--sky);--size:400px" href="https://liybrary.github.io/geography_bee/" aria-label="Geography Bee" aria-describedby="note-geography_bee"><b aria-hidden="true">Geography Bee</b><img src="https://liybrary.github.io/geography_bee/icons/icon-192.png" alt=""></a>
-      <a class="book" data-app="codebusters-speedpractise" style="--color:var(--lime);--size:350px" href="https://liybrary.github.io/codebusters-speedpractise/" aria-label="Codebusters" aria-describedby="note-codebusters-speedpractise"><b aria-hidden="true">Codebusters</b><img src="https://liybrary.github.io/codebusters-speedpractise/icons/icon-192.png" alt=""></a>
+      <a class="book" data-app="vocalize" style="--color:var(--violet);--size:375px" href="https://maitreyeesingh2012-arch.github.io/vocalize/" aria-label="Vocalize" aria-describedby="note-vocalize"><i class="cord" aria-hidden="true"></i><b aria-hidden="true">Vocalize</b><img src="https://maitreyeesingh2012-arch.github.io/vocalize/icons/icon-192.png" alt=""></a>
+      <a class="book" data-app="sound_garden" style="--color:var(--coral);--size:335px" href="https://liybrary.github.io/sound_garden/" aria-label="Sound Garden" aria-describedby="note-sound_garden"><i class="cord" aria-hidden="true"></i><b aria-hidden="true">Sound Garden</b><img src="https://liybrary.github.io/sound_garden/icons/icon-192.png" alt=""></a>
+      <a class="book" data-app="geography_bee" style="--color:var(--sky);--size:400px" href="https://liybrary.github.io/geography_bee/" aria-label="Geography Bee" aria-describedby="note-geography_bee"><i class="cord" aria-hidden="true"></i><b aria-hidden="true">Geography Bee</b><img src="https://liybrary.github.io/geography_bee/icons/icon-192.png" alt=""></a>
+      <a class="book" data-app="codebusters-speedpractise" style="--color:var(--lime);--size:350px" href="https://liybrary.github.io/codebusters-speedpractise/" aria-label="Codebusters" aria-describedby="note-codebusters-speedpractise"><i class="cord" aria-hidden="true"></i><b aria-hidden="true">Codebusters</b><img src="https://liybrary.github.io/codebusters-speedpractise/icons/icon-192.png" alt=""></a>
     </div>
   </div>
 </header>
