@@ -56,13 +56,11 @@ h1 em{font-style:normal;color:var(--coral)}
 .app span{color:var(--muted);font-size:.88rem;margin-top:4px}
 @media (hover:hover){.app:hover i{transform:translateY(-6px)}}
 
-/* Checkouts */
-.checkout{margin-top:76px;padding:30px;border-radius:32px;background:var(--night);color:#fff}
-.checkout h2{font-size:1.6rem}
-.numbers{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;margin:22px 0 14px}
-.numbers b{display:block;font:850 2rem/1.2 var(--display);color:var(--color)}
-.numbers span,.checkout p{color:#bdb4dc;font-size:.88rem}
-.checkout p{margin:0}
+/* Visit counter, drawn as a library stamp */
+.stamp{width:max-content;max-width:100%;margin:44px auto 0;padding:9px 22px;border:3px solid currentColor;outline:1px solid currentColor;outline-offset:4px;border-radius:12px;color:#b8432a;text-align:center;transform:rotate(-3deg)}
+.stamp b{display:block;font:850 1.8rem/1.15 var(--display);font-variant-numeric:tabular-nums}
+.stamp span{font-size:.86rem;font-weight:700}
+@media (prefers-color-scheme:dark){.stamp{color:var(--coral)}}
 footer{display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;color:var(--muted);font-size:.9rem;padding-block:44px}
 [hidden]{display:none!important}
 
@@ -75,7 +73,6 @@ footer{display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;co
   .book:last-child{transform:rotate(5deg)}
   .book img{width:40px;height:40px;border-radius:10px}
   .apps{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .numbers{grid-template-columns:repeat(2,minmax(0,1fr))}
   #apps{padding-top:40px}
 }
 @media (max-width:480px){
@@ -119,36 +116,31 @@ footer{display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;co
     </div>
   </section>
 
-  <aside class="checkout" id="checkout" hidden aria-label="Visitor stats">
-    <h2>Off the shelf</h2>
-    <div class="numbers" id="checkouts"></div>
-    <p>Visits to this page, and how often each app was opened from it.</p>
-  </aside>
+  <div class="stamp" id="counter" hidden><b id="visits"></b><span id="visitsLabel"></span></div>
 </main>
 
 <footer class="wrap">
-  <span>Made by Maitreyee Singh</span><a href="https://github.com/LIYbrary">LIYbrary on GitHub</a>
+  <span>Made by Maitreyee Singh</span><span>Anonymous visit counts by <a href="https://www.goatcounter.com/help/privacy">GoatCounter</a></span><a href="https://github.com/LIYbrary">LIYbrary on GitHub</a>
 </footer>
 
 <script>
-/* Each app link click is counted as a checkout of that app. Set up before GoatCounter binds its click handlers. */
-const APPS=[["vocalize","Vocalize","violet"],["sound_garden","Sound Garden","coral"],["geography_bee","Geography Bee","sky"],["codebusters-speedpractise","Codebusters","lime"]];
-for(const [id,name] of APPS)document.querySelectorAll(`[data-app="${id}"]`).forEach(a=>{
-  a.dataset.goatcounterClick="checkout-"+id;a.dataset.goatcounterTitle="Opened "+name});
-/* The stats panel stays hidden unless the stats load. */
-const GC="https://liybrary.goatcounter.com/counter/";
-const get=p=>fetch(GC+encodeURIComponent(p)+".json").then(r=>r.ok?r.json():null).then(j=>j&&j.count).catch(()=>null);
-(async()=>{
-  const total=await get("TOTAL");if(!total)return;
-  const rows=await Promise.all(APPS.map(async([id,name,color])=>[name,color,(await get("checkout-"+id))||"0"]));
-  document.getElementById("checkouts").replaceChildren(...[["Page visits","sun",total],...rows].map(([name,color,count])=>{
-    const box=document.createElement("div"),n=document.createElement("b"),label=document.createElement("span");
-    box.style.setProperty("--color",`var(--${color})`);n.textContent=count;label.textContent=name;
-    box.append(n,label);return box}));
-  document.getElementById("checkout").hidden=false;
-})();
+/* App link clicks are recorded as events. Set up before GoatCounter binds its click handlers. */
+document.querySelectorAll("[data-app]").forEach(a=>{
+  a.dataset.goatcounterClick="checkout-"+a.dataset.app;
+  a.dataset.goatcounterTitle="Opened "+a.dataset.app});
+/* Count every address of this page (?v=2, /index.html) as "/". Read that path, as TOTAL would include the clicks. */
+window.goatcounter={path:p=>p.startsWith("checkout-")?p:"/"};
+/* The stamp stays hidden until there is a count to show. */
+fetch("https://liybrary.goatcounter.com/counter/%2F.json")
+  .then(r=>r.ok?r.json():null)
+  .then(j=>{
+    const n=j&&String(j.count).replace(/\D/g,"");
+    if(!Number(n))return;
+    document.getElementById("visits").textContent=Number(n).toLocaleString();
+    document.getElementById("visitsLabel").textContent=Number(n)===1?"visit to the library":"visits to the library";
+    document.getElementById("counter").hidden=false})
+  .catch(()=>{});
 </script>
-<!-- Visit stats from GoatCounter (no cookies). -->
 <script data-goatcounter="https://liybrary.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
