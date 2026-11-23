@@ -1,0 +1,38 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.liybrary.soundgarden",
+      "sha256_cert_fingerprints": [
+        "B3:2A:B5:F7:79:DE:11:24:FC:AC:9E:F3:F9:3E:6A:EF:A6:AF:BE:46:76:16:EA:46:ED:3D:5B:6C:5A:E9:F5:A9"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.liybrary.geographybee",
+      "sha256_cert_fingerprints": [
+        "E6:63:51:4B:15:31:7D:75:79:5D:8D:16:1D:74:79:F8:17:70:64:F1:76:2E:C9:D4:33:AA:16:1E:DA:E2:26:9F"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.liybrary.codebusters",
+      "sha256_cert_fingerprints": [
+        "EC:5E:8F:7C:38:12:8F:5A:2A:34:3C:DE:F0:B6:36:BA:FC:72:89:4D:25:FE:0B:AD:14:2C:DA:92:8B:18:39:51"
+      ]
+    }
+  }
+]
